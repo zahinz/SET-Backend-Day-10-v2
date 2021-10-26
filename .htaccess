@@ -1,1 +1,1 @@
-ErrorDocument 404 http://167.71.198.9/SET-Backend-Day-10-v2/index.php
+ErrorDocument 404 http://localhost:8888/backend-day-10-v2
