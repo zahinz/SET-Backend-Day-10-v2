@@ -1,7 +1,14 @@
 <?php
 $servername = "localhost";
-$username = "zahin";
-$password = "zahinpassword";
+
+// digitalocean database
+// $username = "zahin";
+// $password = "zahinpassword";
+// $dbname = "day_10";
+
+// local database
+$username = "root";
+$password = "root";
 $dbname = "day_10";
 
 // Create connection

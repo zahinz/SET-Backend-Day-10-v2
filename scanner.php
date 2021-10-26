@@ -9,12 +9,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta name="format-detection" content="telephone=no" />
 
-
     <link rel="stylesheet" href="dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" type="text/css" href="dist/css/style.css?v=1.0.5" />
 
+    <?php
+        include 'mysql-db.php';
+        
+        $phone_insert = $_POST[phone];
+        $full_phone = $_POST[full_number];
+        $country_code = substr($full_phone, 0, strlen($full_phone)-strlen($phone_insert));
 
+        $sql_select_date = 
+        "SELECT * 
+        FROM users 
+        WHERE hp_number='$phone_insert'";
+
+        $result_date = $conn->query($sql_select_date);
+
+        if ($result_date->num_rows > 0) {
+        // output data of each row
+        while($row_date = $result_date->fetch_assoc()) {
+            $date_created = substr($row_date["datetime_created"], 0, 10);
+            $user_id = $row_date["user_id"];
+        }
+        } else {
+        echo "0 results";
+        }
+
+        echo $date_created;
+
+        if (isset($_POST[new_name])) {
+            $sql_select = 
+            "SELECT * 
+            FROM users 
+            WHERE hp_number='$phone_insert'";
+
+            $result = $conn->query($sql_select);
+
+            if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $name = $row["name"];
+            }
+            } else {
+            echo "0 results";
+            }
+
+            $name = $_POST[new_name];
+        }
+        else {
+            $name = $_POST[name];
+        }
+    ?>
 
 </head>
 
@@ -133,30 +180,48 @@
                                 <div class="card_profile_content">
                                     <div class="form_group form_name">
                                         <label class="form_lbl">Name</label>
-                                        <div class="form_val">John Doe</div>
+                                        <div class="form_val">
+                                            <?php echo $name;?>
+                                        </div>
                                         <a href="#" class="edit_profile_link">Edit</a>
                                     </div>
                                     <div class="form_group form_mobileno">
                                         <label class="form_lbl">Mobile Number</label>
-                                        <div class="form_val">012-3456789</div>
+                                        <div class="form_val">
+                                            <?php echo $full_phone;?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card_profile_back">
                             <div class="profile_back_card">
-                                <a href="#" class="cancel_btn cancel_profile"><img src="dist/images/svg/cancel_blue.svg" alt=""/></a>
-                                <div class="card_profile_content">
-                                    <div class="form_group form_name">
-                                        <label class="form_lbl">Name</label>
-                                        <input type="text" class="form_txt_sm" value="John Doe">
+                                <form action="scanner.php" method="post">
+                                    <a href="#" class="cancel_btn cancel_profile"><img src="dist/images/svg/cancel_blue.svg" alt=""/></a>
+                                    <div class="card_profile_content">
+                                    
+                                        <?php
+                                        echo
+                                        '<input type="hidden" name="name" value="'.$name.'">
+                                        <input type="hidden" name="phone" value="'.$phone_insert.'">
+                                        <input type="hidden" name="full_number" value="'.$full_phone.'">
+                                        <input type="hidden" name="country_code" value="'.$country_code.'">';
+                                        ?>
+
+                                        <div class="form_group form_name">
+                                            <label class="form_lbl">Name</label>
+                                            <input type="text" class="form_txt_sm" name="new_name" value="<?php echo $name; ?>">
+                                        </div>
+
+                                        <div class="form_group form_mobileno">
+                                            <label class="form_lbl">Mobile Number</label>
+                                            <div class="form_val">
+                                                <?php echo $full_phone;?>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form_group form_mobileno">
-                                        <label class="form_lbl">Mobile Number</label>
-                                        <div class="form_val">012-3456789</div>
-                                    </div>
-                                </div>
-                                <button type="button" class="form_app_submit submit_profile btn_orange">Save</button>
+                                    <button type="submit" class="form_app_submit submit_profile btn_orange">Save</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -168,17 +233,23 @@
                             <div class="info_top_left">
                                 <div class="form_group form_name">
                                     <label class="form_lbl">Name</label>
-                                    <div class="form_val">John Doe</div>
+                                    <div class="form_val">
+                                        <?php echo $name; ?>
+                                    </div>
                                 </div>
                                 <div class="form_group form_mobileno">
                                     <label class="form_lbl">Mobile Number</label>
-                                    <div class="form_val">012-3456789</div>
+                                    <div class="form_val">
+                                        <?php echo $full_phone; ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="info_top_right">
                                 <div class="form_group form_joined">
                                     <label class="form_lbl">Joined Since</label>
-                                    <div class="form_val">1 June 2020</div>
+                                    <div class="form_val">
+                                        <?php echo $date_created; ?>
+                                    </div>
                                 </div>
                                 <div class="form_group form_totalcheckin">
                                     <label class="form_lbl">Total Check-Ins</label>
@@ -603,6 +674,28 @@
         });
         
     </script>
+    <?php
+        if (isset($_POST[new_name])) {
+            $sql = 
+            "UPDATE users 
+            SET name='$_POST[new_name]' 
+            WHERE hp_number='$phone_insert'";
+
+            // if ($conn->query($sql) === TRUE) {
+            // echo "Record updated successfully";
+            // } else {
+            // echo "Error updating record: " . $conn->error;
+            // }
+
+            $name = $_POST[new_name];
+        }
+
+        echo $user_id;
+        echo $name;
+        echo $phone_insert;
+        echo $full_phone;
+        echo $country_code;
+    ?>
 
 
 </body>
