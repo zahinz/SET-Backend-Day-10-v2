@@ -690,11 +690,11 @@
             $name = $_POST[new_name];
         }
 
-        echo $user_id;
-        echo $name;
-        echo $phone_insert;
-        echo $full_phone;
-        echo $country_code;
+        // echo $user_id;
+        // echo $name;
+        // echo $phone_insert;
+        // echo $full_phone;
+        // echo $country_code;
     ?>
 
 
