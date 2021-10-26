@@ -37,7 +37,7 @@
         echo "0 results";
         }
 
-        echo $date_created;
+        // echo $date_created;
 
         if (isset($_POST[new_name])) {
             $sql_select = 
