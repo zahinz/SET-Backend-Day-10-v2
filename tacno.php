@@ -74,13 +74,10 @@
     </div>
 
     <?php
-        echo $name;
-        echo $phone_insert;
-        echo $country_code;
-        echo $_COOKIE[tacNum];
-
-        
-        
+        // echo $name;
+        // echo $phone_insert;
+        // echo $country_code;
+        // echo $_COOKIE[tacNum];
     ?>
 
     <script>

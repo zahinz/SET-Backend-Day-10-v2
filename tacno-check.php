@@ -131,13 +131,12 @@
     </div>
 
     <?php
-        echo $name;
-        echo $phone_insert;
-        echo $country_code;
-        echo $_COOKIE[tacNum];
-        echo $tac_submitted;
-        echo $verification_status;
-        
+        // echo $name;
+        // echo $phone_insert;
+        // echo $country_code;
+        // echo $_COOKIE[tacNum];
+        // echo $tac_submitted;
+        // echo $verification_status;
     ?>
 
     <script>
